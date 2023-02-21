@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .carousel {
+  position: relative;
+  width: 300px;
+  height: 200px;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.carousel-images {
+  position: absolute;
+  display: flex;
+  width: 300%;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.carousel-images img {
+  width: 33.33%;
+}
+
+.prev-btn,
+.next-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 50px;
+  height: 50px;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 30px;
+  color: #fff;
+}
+
+.prev-btn {
+  left: 0;
+}
+
+.next-btn {
+  right: 0;
+}
+
+    </style>
+</head>
+<body>
+    <div class="carousel">
+        <div class="carousel-images">
+          <img src="img1.jpg">
+          <img src="img2.png">
+          <img src="img3.jpg">
+        </div>
+        <button class="prev-btn">&lt;</button>
+        <button class="next-btn">&gt;</button>
+      </div>
+      <script>
+        const carouselImages = document.querySelector('.carousel-images');
+const prevBtn = document.querySelector('.prev-btn');
+const nextBtn = document.querySelector('.next-btn');
+let counter = 1;
+const size = carouselImages.children[0].clientWidth;
+
+carouselImages.style.transform = 'translateX(' + (-size * counter) + 'px)';
+
+nextBtn.addEventListener('click', () => {
+  if (counter >= carouselImages.children.length - 1) return;
+  carouselImages.style.transition = "transform 0.5s ease-in-out";
+  counter++;
+  carouselImages.style.transform = 'translateX(' + (-size * counter) + 'px)';
+});
+
+prevBtn.addEventListener('click', () => {
+  if (counter <= 0) return;
+  carouselImages.style.transition = "transform 0.5s ease-in-out";
+  counter--;
+  carouselImages.style.transform = 'translateX(' + (-size * counter) + 'px)';
+});
+
+carouselImages.addEventListener('transitionend', () => {
+  if (carouselImages.children[counter].id === 'last-clone') {
+    carouselImages.style.transition = "none";
+    counter = carouselImages.children.length - 2;
+    carouselImages.style.transform = 'translateX(' + (-size * counter) + 'px)';
+  }
+  if (carouselImages.children[counter].id === 'first-clone') {
+    carouselImages.style.transition = "none";
+    counter = carouselImages.children.length - counter;
+    carouselImages.style.transform = 'translateX(' + (-size * counter) + 'px)';
+  }
+});
+
+      </script>
+</body>
+</html>

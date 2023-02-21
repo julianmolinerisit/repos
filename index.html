@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #image-gallery {
+            display: flex;
+            width: 100%;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+        }
+
+        #image-gallery img {
+            scroll-snap-align: center;
+            width: calc(100% - 40px); /* ancho de la imagen menos el margen */
+            height: auto;
+           /*  margin: 0 20px; margen de 20px a cada lado */
+        }
+    </style>
+</head>
+<body>
+    <div id="image-gallery">
+        <img src="img1.jpg">
+        <img src="img2.png">
+        <img src="img3.jpg">
+    </div>
+
+    <script>
+        const imageGallery = document.getElementById("image-gallery");
+        let previousPosition = 0;
+
+        imageGallery.addEventListener("touchmove", (event) => {
+            const currentPosition = event.touches[0].clientX;
+            const difference = previousPosition - currentPosition;
+
+            // Si la diferencia es positiva, el usuario está desplazando hacia la derecha
+            // Si la diferencia es negativa, el usuario está desplazando hacia la izquierda
+            imageGallery.scrollLeft += difference;
+
+            previousPosition = currentPosition;
+        });
+
+        imageGallery.addEventListener("mousemove", (event) => {
+            const currentPosition = event.clientX;
+            const difference = previousPosition - currentPosition;
+
+            // Si la diferencia es positiva, el usuario está desplazando hacia la derecha
+            // Si la diferencia es negativa, el usuario está desplazando hacia la izquierda
+            imageGallery.scrollLeft += difference;
+
+            previousPosition = currentPosition;
+        });
+    </script>
+</body>
+</html>

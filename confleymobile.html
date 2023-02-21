@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #image-gallery {
+            display: flex;
+            width: 100%;
+            overflow-x: scroll;
+            scroll-snap-type: x mandatory;
+        }
+
+        #image-gallery img {
+            scroll-snap-align: center;
+            width: calc(100% - 40px);
+            height: auto;
+            margin: 0 20px;
+        }
+
+        #arrow-left, #arrow-right {
+            display: none;
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background-color: #ddd;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 40px;
+            font-size: 24px;
+            color: #444;
+            cursor: pointer;
+        }
+
+        #arrow-left {
+            left: 20px;
+        }
+
+        #arrow-right {
+            right: 20px;
+        }
+
+        @media screen and (max-width: 600px) {
+            #arrow-left, #arrow-right {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="image-gallery">
+        <img src="img1.jpg">
+        <img src="img2.png">
+        <img src="img3.jpg">
+    </div>
+
+    <div id="arrow-left">&lt;</div>
+    <div id="arrow-right">&gt;</div>
+
+    <script>
+        const imageGallery = document.getElementById("image-gallery");
+        const arrowLeft = document.getElementById("arrow-left");
+        const arrowRight = document.getElementById("arrow-right");
+        let previousPosition = 0;
+
+        imageGallery.addEventListener("touchmove", (event) => {
+            const currentPosition = event.touches[0].clientX;
+            const difference = previousPosition - currentPosition;
+
+            // Si la diferencia es positiva, el usuario está desplazando hacia la derecha
+            // Si la diferencia es negativa, el usuario está desplazando hacia la izquierda
+            imageGallery.scrollLeft += difference;
+
+            previousPosition = currentPosition;
+
+            updateArrows();
+        });
+
+        imageGallery.addEventListener("mousemove", (event) => {
+            const currentPosition = event.clientX;
+            const difference = previousPosition - currentPosition;
+
+            // Si la diferencia es positiva, el usuario está desplazando hacia la derecha
+            // Si la diferencia es negativa, el usuario está desplazando hacia la izquierda
+            imageGallery.scrollLeft += difference;
+
+            previousPosition = currentPosition;
+
+            updateArrows();
+        });
+
+        arrowLeft.addEventListener("click", () => {
+            imageGallery.scrollLeft -= 200;
+
+            updateArrows();
+        });
+
+        arrowRight.addEventListener("click", () => {
+            imageGallery.scrollLeft += 200;
+
+            updateArrows();
+        });
+
+        function updateArrows() {
+            if (imageGallery.scrollLeft === 0) {
+                arrowLeft.style.display = "none";
+            } else {
+                arrowLeft.style.display = "block";
+            }
+
+            if (imageGallery.scrollLeft + imageGallery.offsetWidth >= imageGallery.scrollWidth) {
+                arrowRight.style.display = "none";
+            } else {
+                arrowRight.style.display = "block";
+            }
+        }
+    </script>
+
+
+    </body>
+    </html>
